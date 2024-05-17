@@ -132,9 +132,7 @@ require_once ("ClassesStore/FaceAdsInfo.php");
 use FacebookAds\Api;
 use FacebookAds\Logger\CurlLogger;
 use FacebookAds\Object\ServerSide\ActionSource;
-use FacebookAds\Object\ServerSide\Content;
 use FacebookAds\Object\ServerSide\CustomData;
-use FacebookAds\Object\ServerSide\DeliveryCategory;
 use FacebookAds\Object\ServerSide\Event;
 use FacebookAds\Object\ServerSide\EventRequest;
 use FacebookAds\Object\ServerSide\UserData;
@@ -149,27 +147,20 @@ $api->setLogger(new CurlLogger());
 
 // making contents
 
-
-$custom_data = (new CustomData())
-    ->setNumItems(1)
-    ->setContentName($nomprod);
-
-$event = (new Event())
-    ->setEventTime(time())
-    ->setEventName('Iniciar pago')
-    ->setEventSourceUrl($RECENT_URL)
-    ->setActionSource(ActionSource::WEBSITE) //Origen de acción
-    ->setEventId(microtime())
-    ->setDataProcessingOptions(['LDU'], 0, 0);
-
 if (isset($_SESSION['clientecarritoobtenido'])) {
-    $BEPedido = new BEPedido();
-    $BEPedido = unserialize((base64_decode($_SESSION['pedidodatos'])));
+    $custom_data = (new CustomData())
+        ->setNumItems(1)
+        ->setCurrency('USD')
+        ->setValue($ahorro)
+        ->setContentName($nomprod);
 
-    $montoTotal = $BEPedido->getMontoPedido();
-
-    $montoEnvio = $BEPedido->getMontoEnvioPed();
-    $montoCupon = $BEPedido->getAhorroCupon();
+    $event = (new Event())
+        ->setEventTime(time())
+        ->setEventName('Iniciar pago')
+        ->setEventSourceUrl($RECENT_URL)
+        ->setActionSource(ActionSource::WEBSITE) //Origen de acción
+        ->setEventId(microtime())
+        ->setDataProcessingOptions(['LDU'], 0, 0);
     $productosArray = [];
     // load user information
     $BECliente = new BECliente();
@@ -191,16 +182,16 @@ if (isset($_SESSION['clientecarritoobtenido'])) {
         ->setPhone($BECliente->getCelular());
     $event->setUserData($user_data);
     $custom_data->setOrderId($BECliente->getCodCliente());
+    $event->setCustomData($custom_data);
+    $events = array();
+    array_push($events, $event);
+
+    $request = (new EventRequest(PIXEL_ID))
+        ->setEvents($events);
+    $response = $request->execute();
 }
-$event->setCustomData($custom_data);
 
 
-$events = array();
-array_push($events, $event);
-
-$request = (new EventRequest(PIXEL_ID))
-	->setEvents($events);
-$response = $request->execute();
 
 // --------------------------------FacebookAds end-------------------------------------------------
 //print_r($BEProducto);

@@ -14,12 +14,11 @@ if (isset($_POST['operacion'])) {
 <?php
 session_start();
 
+// facebookAds library
 use FacebookAds\Api;
 use FacebookAds\Logger\CurlLogger;
 use FacebookAds\Object\ServerSide\ActionSource;
-use FacebookAds\Object\ServerSide\Content;
 use FacebookAds\Object\ServerSide\CustomData;
-use FacebookAds\Object\ServerSide\DeliveryCategory;
 use FacebookAds\Object\ServerSide\Event;
 use FacebookAds\Object\ServerSide\EventRequest;
 use FacebookAds\Object\ServerSide\UserData;
@@ -105,20 +104,20 @@ if ($operacion == 3) {
     $api->setLogger(new CurlLogger());
 
     // making contents
-    $custom_data = (new CustomData())
-        ->setNumItems($cantidad)
-        ->setContentName($nomprod)
-        ->setValue($montoTotal);
-
-    $event = (new Event())
-        ->setEventTime(time())
-        ->setEventName('Agregar el carrito')
-        ->setEventSourceUrl($RECENT_URL)
-        ->setActionSource(ActionSource::WEBSITE) //Origen de acción
-        ->setEventId(microtime())
-        ->setDataProcessingOptions(['LDU'], 0, 0);
-
+    
     if (isset($_SESSION['clientecarritoobtenido'])) {
+        $custom_data = (new CustomData())
+            ->setNumItems($cantidad)
+            ->setContentName($nomprod)
+            ->setValue($ahorro);
+    
+        $event = (new Event())
+            ->setEventTime(time())
+            ->setEventName('Agregar el carrito')
+            ->setEventSourceUrl($RECENT_URL)
+            ->setActionSource(ActionSource::WEBSITE) //Origen de acción
+            ->setEventId(microtime())
+            ->setDataProcessingOptions(['LDU'], 0, 0);
         // load user information
         $BECliente = new BECliente();
         $BECliente = unserialize((base64_decode($_SESSION['clientecarritoobtenido'])));
@@ -139,16 +138,16 @@ if ($operacion == 3) {
             ->setPhone($BECliente->getCelular());
         $event->setUserData($user_data);
         $custom_data->setOrderId($BECliente->getCodCliente());
+        $event->setCustomData($custom_data);
+    
+    
+        $events = array();
+        array_push($events, $event);
+    
+        $request = (new EventRequest(PIXEL_ID))
+            ->setEvents($events);
+        $response = $request->execute();
     }
-    $event->setCustomData($custom_data);
-
-
-    $events = array();
-    array_push($events, $event);
-
-    $request = (new EventRequest(PIXEL_ID))
-        ->setEvents($events);
-    $response = $request->execute();
 
 
     // --------------------------------FacebookAds end-------------------------------------------------

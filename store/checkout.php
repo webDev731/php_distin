@@ -200,7 +200,6 @@ if (isset($_SESSION['clientecarritoobtenido'])) {
 		->setCountryCode('PE')
 		->setPhone($BECliente->getCelular());
 	$event->setUserData($user_data);
-	$custom_data->setOrderId($BECliente->getCodCliente());
 }
 $event->setCustomData($custom_data);
 
