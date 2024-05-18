@@ -23,7 +23,12 @@ class ComposerStaticInit6bcd5481a846d46e3ee0021089b21408
         array (
             'Psr\\Http\\Message\\' => 17,
             'Psr\\Http\\Client\\' => 16,
+            'Psr\\Cache\\' => 10,
             'PhpParser\\' => 10,
+        ),
+        'M' => 
+        array (
+            'MercadoPago\\' => 12,
         ),
         'G' => 
         array (
@@ -37,7 +42,12 @@ class ComposerStaticInit6bcd5481a846d46e3ee0021089b21408
         ),
         'D' => 
         array (
+            'Doctrine\\Persistence\\' => 21,
             'Doctrine\\Instantiator\\' => 22,
+            'Doctrine\\Deprecations\\' => 22,
+            'Doctrine\\Common\\Lexer\\' => 22,
+            'Doctrine\\Common\\Annotations\\' => 28,
+            'Doctrine\\Common\\' => 16,
             'DeepCopy\\' => 9,
         ),
     );
@@ -56,9 +66,21 @@ class ComposerStaticInit6bcd5481a846d46e3ee0021089b21408
         array (
             0 => __DIR__ . '/..' . '/psr/http-client/src',
         ),
+        'Psr\\Cache\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/psr/cache/src',
+        ),
         'PhpParser\\' => 
         array (
             0 => __DIR__ . '/..' . '/nikic/php-parser/lib/PhpParser',
+        ),
+        'MercadoPago\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/mercadopago/dx-php/src/MercadoPago',
+            1 => __DIR__ . '/..' . '/mercadopago/dx-php/tests',
+            2 => __DIR__ . '/..' . '/mercadopago/dx-php/src/MercadoPago/Generic',
+            3 => __DIR__ . '/..' . '/mercadopago/dx-php/src/MercadoPago/Entities',
+            4 => __DIR__ . '/..' . '/mercadopago/dx-php/src/MercadoPago/Entities/Shared',
         ),
         'GuzzleHttp\\Psr7\\' => 
         array (
@@ -77,9 +99,30 @@ class ComposerStaticInit6bcd5481a846d46e3ee0021089b21408
             0 => __DIR__ . '/../..' . '/src/FacebookAds',
             1 => __DIR__ . '/..' . '/facebook/php-business-sdk/src/FacebookAds',
         ),
+        'Doctrine\\Persistence\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/doctrine/persistence/src/Persistence',
+        ),
         'Doctrine\\Instantiator\\' => 
         array (
             0 => __DIR__ . '/..' . '/doctrine/instantiator/src/Doctrine/Instantiator',
+        ),
+        'Doctrine\\Deprecations\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/doctrine/deprecations/lib/Doctrine/Deprecations',
+        ),
+        'Doctrine\\Common\\Lexer\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/doctrine/lexer/src',
+        ),
+        'Doctrine\\Common\\Annotations\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/doctrine/annotations/lib/Doctrine/Common/Annotations',
+        ),
+        'Doctrine\\Common\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/doctrine/event-manager/src',
+            1 => __DIR__ . '/..' . '/doctrine/common/src',
         ),
         'DeepCopy\\' => 
         array (
@@ -167,9 +210,6 @@ class ComposerStaticInit6bcd5481a846d46e3ee0021089b21408
         'Hamcrest\\Type\\IsString' => __DIR__ . '/..' . '/hamcrest/hamcrest-php/hamcrest/Hamcrest/Type/IsString.php',
         'Hamcrest\\Util' => __DIR__ . '/..' . '/hamcrest/hamcrest-php/hamcrest/Hamcrest/Util.php',
         'Hamcrest\\Xml\\HasXPath' => __DIR__ . '/..' . '/hamcrest/hamcrest-php/hamcrest/Hamcrest/Xml/HasXPath.php',
-        'MP' => __DIR__ . '/..' . '/mercadopago/sdk/lib/mercadopago.php',
-        'MPRestClient' => __DIR__ . '/..' . '/mercadopago/sdk/lib/mercadopago.php',
-        'MercadoPagoException' => __DIR__ . '/..' . '/mercadopago/sdk/lib/mercadopago.php',
         'PHPUnit\\Exception' => __DIR__ . '/..' . '/phpunit/phpunit/src/Exception.php',
         'PHPUnit\\Framework\\ActualValueIsNotAnObjectException' => __DIR__ . '/..' . '/phpunit/phpunit/src/Framework/Exception/ActualValueIsNotAnObjectException.php',
         'PHPUnit\\Framework\\Assert' => __DIR__ . '/..' . '/phpunit/phpunit/src/Framework/Assert.php',
