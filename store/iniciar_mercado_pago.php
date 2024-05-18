@@ -4,85 +4,7 @@
 // integrar mercado pago
 require_once 'vendor/autoload.php';
 
-/********************************************facebookAds setting start****************************************
- * 
- */
-require_once ("ClassesStore/FaceAdsInfo.php");
-require_once ("ClassesStore/configuracionBD.php");
 
-use FacebookAds\Api;
-use FacebookAds\Logger\CurlLogger;
-use FacebookAds\Object\ServerSide\ActionSource;
-use FacebookAds\Object\ServerSide\Content;
-use FacebookAds\Object\ServerSide\CustomData;
-use FacebookAds\Object\ServerSide\DeliveryCategory;
-use FacebookAds\Object\ServerSide\Event;
-use FacebookAds\Object\ServerSide\EventRequest;
-use FacebookAds\Object\ServerSide\UserData;
-
-$RECENT_URL = $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
-
-$api = Api::init(null, null, ACCESS_TOKEN);
-$api->setLogger(new CurlLogger());
-
-// making contents
-$contents = [];
-$content_name_arr = [];
-foreach ($_POST['productosArray'] as $key => $product) {
-  $content_name_arr[] = $product['nombre'];
-  $contents[] = (new Content())
-    ->setProductId($product['codigo'])
-    ->setQuantity($product['cantidad'])
-    ->setTitle($product['nombre'])
-    ->setDeliveryCategory(DeliveryCategory::HOME_DELIVERY);
-}
-
-$custom_data = (new CustomData())
-  ->setContents($contents)
-  ->setNumItems(count($contents))
-  ->setContentName(implode(',', $content_name_arr))
-  ->setValue($montoTotal);
-
-$event = (new Event())
-  ->setEventTime(time())
-  ->setEventName('Agregar información de pago')
-  ->setEventSourceUrl($RECENT_URL)
-  ->setActionSource(ActionSource::WEBSITE) //Origen de acción
-  ->setEventId(microtime())
-  ->setDataProcessingOptions(['LDU'], 0, 0);
-
-if (isset($_SESSION['clientecarritoobtenido'])) {
-  // load user information
-  $BECliente = new BECliente();
-  $BECliente = unserialize((base64_decode($_SESSION['clientecarritoobtenido'])));
-  $name = $BECliente->getApeNom();
-
-  $name_arr = explode(' ', $name);
-  $FaceAdsInfo = new FaceAdsInfo();
-  $bolLista = 2;
-  $location_data = $FaceAdsInfo->getLocationByClinent($BECliente->getCodCliente(), $bolLista);
-  $user_data = (new UserData())
-    ->setEmail($BECliente->getEmail())
-    ->setLastName($name_arr[count($name_arr) - 1])
-    ->setFirstName($name)
-    ->setClientIpAddress($_SERVER['REMOTE_ADDR'])
-    ->setCity($location_data['NomDist'])
-    ->setClientUserAgent($_SERVER['HTTP_USER_AGENT'])
-    ->setCountryCode('PE')
-    ->setPhone($BECliente->getCelular());
-  $event->setUserData($user_data);
-}
-$event->setCustomData($custom_data);
-
-
-$events = array();
-array_push($events, $event);
-
-$request = (new EventRequest(PIXEL_ID))
-	->setEvents($events);
-$response = $request->execute();
-
-// --------------------------------FacebookAds end-------------------------------------------------
 
 require_once 'ClassesStore/configuracionBD.php';
 
@@ -148,7 +70,7 @@ $payer->identification = [
 
 $preference->payer = $payer;
 
-
+$montoTotal = 0;
 
 // pasar productos a mercado pago
 $items = [];
@@ -160,7 +82,7 @@ foreach ($_POST['productosArray'] as $prod) {
   $items[$i]->title = $prod['nombre'];
   $items[$i]->quantity = $prod['cantidad'];
   $items[$i]->unit_price = $prod['precio'];
-
+  $montoTotal += $prod['precio'];
   ++$i;
 }
 
@@ -172,7 +94,7 @@ if ($_POST['montoEnvio'] != 0) {
   $items[$i]->title = "Envío";
   $items[$i]->quantity = 1;
   $items[$i]->unit_price = $_POST['montoEnvio'];
-
+  $montoTotal += $_POST['montoEnvio'];
   ++$i;
 }
 
@@ -184,12 +106,110 @@ if ($_POST['montoCupon'] != 0) {
   $items[$i]->title = "Cupón de descuento";
   $items[$i]->quantity = 1;
   $items[$i]->unit_price = ($_POST['montoCupon'] * -1);
+  $montoTotal += $items[$i]->unit_price;
 }
 
 
 
 $preference->items = $items;
+/********************************************facebookAds setting start****************************************
+ * 
+ */
+require_once ("ClassesStore/FaceAdsInfo.php");
+require_once ("ClassesStore/configuracionBD.php");
 
+use FacebookAds\Api;
+use FacebookAds\Logger\CurlLogger;
+use FacebookAds\Object\ServerSide\ActionSource;
+use FacebookAds\Object\ServerSide\Content;
+use FacebookAds\Object\ServerSide\CustomData;
+use FacebookAds\Object\ServerSide\DeliveryCategory;
+use FacebookAds\Object\ServerSide\Event;
+use FacebookAds\Object\ServerSide\EventRequest;
+use FacebookAds\Object\ServerSide\UserData;
+
+$RECENT_URL = $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
+
+$api = Api::init(null, null, ACCESS_TOKEN);
+$api->setLogger(new CurlLogger());
+
+// making contents
+$contents = [];
+$content_name_arr = [];
+foreach ($_POST['productosArray'] as $key => $product) {
+  $content_name_arr[] = $product['nombre'];
+  $contents[] = (new Content())
+    ->setProductId($product['codigo'])
+    ->setQuantity($product['cantidad'])
+    ->setTitle($product['nombre'])
+    ->setDeliveryCategory(DeliveryCategory::HOME_DELIVERY);
+}
+
+$custom_data = (new CustomData())
+  ->setContents($contents)
+  ->setNumItems(count($contents))
+  ->setContentName(implode(',', $content_name_arr))
+  ->setValue($montoTotal);
+
+$event = (new Event())
+  ->setEventTime(time())
+  ->setEventName('Agregar información de pago')
+  ->setEventSourceUrl($RECENT_URL)
+  ->setActionSource(ActionSource::WEBSITE) //Origen de acción
+  ->setEventId(microtime())
+  ->setDataProcessingOptions(['LDU'], 0, 0);
+
+if (isset($_SESSION['clientecarritoobtenido'])) {
+  // load user information
+  $BECliente = new BECliente();
+  $BECliente = unserialize((base64_decode($_SESSION['clientecarritoobtenido'])));
+  $name = $BECliente->getApeNom();
+
+  $name_arr = explode(' ', $name);
+  $FaceAdsInfo = new FaceAdsInfo();
+  $bolLista = 2;
+  $location_data = $FaceAdsInfo->getLocationByClinent($BECliente->getCodCliente(), $bolLista);
+
+  //20240517 CambioChristian
+	$codProvMeta =0;
+	$distMeta ="";
+	if ($bolLista == 1) {
+
+		while ($fila = $location_data->fetch()) {
+			$distMeta = $fila["NomDist"];
+			//echo " distMeta ($distMeta)";
+			$codProvMeta = $fila["Id_Provincia"];
+		}
+	}
+
+	If($codProvMeta =="1501")
+	{
+		$distMeta = "LIMA";
+	}
+
+
+  $user_data = (new UserData())
+    ->setEmail($BECliente->getEmail())
+    ->setLastName($name_arr[count($name_arr) - 1])
+    ->setFirstName($name)
+    ->setClientIpAddress($_SERVER['REMOTE_ADDR'])
+    ->setCity($distMeta )
+    ->setClientUserAgent($_SERVER['HTTP_USER_AGENT'])
+    ->setCountryCode('PE')
+    ->setPhone($BECliente->getCelular());
+  $event->setUserData($user_data);
+}
+$event->setCustomData($custom_data);
+
+
+$events = array();
+array_push($events, $event);
+
+$request = (new EventRequest(PIXEL_ID))
+	->setEvents($events);
+$response = $request->execute();
+
+// --------------------------------FacebookAds end-------------------------------------------------
 $preference->save();
 
 

@@ -15,7 +15,7 @@ class FaceAdsInfo{
         FROM pedido a INNER JOIN pedido_envio b on(a.NumPed = b.NumPed) WHERE a.CodCliente = :code ORDER BY a.NumPed DESC LIMIT 1;";
 		//echo $sql;
 		$array = array (":code" => $codCliente);
-		$result = $db->consulta2($sql, $array, $funciono)->fetch();
+		$result = $db->consulta2($sql, $array, $funciono);
 		return $result;	      
 	}
 }

@@ -1,9 +1,9 @@
 <?php return array(
     'root' => array(
         'name' => '__root__',
-        'pretty_version' => '1.0.0+no-version-set',
-        'version' => '1.0.0.0',
-        'reference' => null,
+        'pretty_version' => 'dev-main',
+        'version' => 'dev-main',
+        'reference' => '6535f9a8026468ae6606950e45b51b69698553dd',
         'type' => 'library',
         'install_path' => __DIR__ . '/../../',
         'aliases' => array(),
@@ -11,9 +11,9 @@
     ),
     'versions' => array(
         '__root__' => array(
-            'pretty_version' => '1.0.0+no-version-set',
-            'version' => '1.0.0.0',
-            'reference' => null,
+            'pretty_version' => 'dev-main',
+            'version' => 'dev-main',
+            'reference' => '6535f9a8026468ae6606950e45b51b69698553dd',
             'type' => 'library',
             'install_path' => __DIR__ . '/../../',
             'aliases' => array(),
@@ -90,6 +90,15 @@
             'replaced' => array(
                 0 => '*',
             ),
+        ),
+        'mercadopago/sdk' => array(
+            'pretty_version' => 'v0.5.6',
+            'version' => '0.5.6.0',
+            'reference' => '67f65735d5d720a7fc2569163f5c7d150adc613d',
+            'type' => 'library',
+            'install_path' => __DIR__ . '/../mercadopago/sdk',
+            'aliases' => array(),
+            'dev_requirement' => false,
         ),
         'mockery/mockery' => array(
             'pretty_version' => '1.3.3',

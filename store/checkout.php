@@ -190,12 +190,30 @@ if (isset($_SESSION['clientecarritoobtenido'])) {
 	$FaceAdsInfo = new FaceAdsInfo();
 	$bolLista = 2;
 	$location_data = $FaceAdsInfo->getLocationByClinent($BECliente->getCodCliente(), $bolLista);
+
+	//20240517 CambioChristian
+	$codProvMeta =0;
+	$distMeta ="";
+	if ($bolLista == 1) {
+
+		while ($fila = $location_data->fetch()) {
+			$distMeta = $fila["NomDist"];
+			//echo " distMeta ($distMeta)";
+			$codProvMeta = $fila["Id_Provincia"];
+		}
+	}
+
+	If($codProvMeta =="1501")
+	{
+		$distMeta = "LIMA";
+	}
+
 	$user_data = (new UserData())
 		->setEmail($BECliente->getEmail())
 		->setLastName($name_arr[count($name_arr) - 1])
 		->setFirstName($name)
 		->setClientIpAddress($_SERVER['REMOTE_ADDR'])
-		->setCity($location_data['NomDist'])
+		->setCity($distMeta )
 		->setClientUserAgent($_SERVER['HTTP_USER_AGENT'])
 		->setCountryCode('PE')
 		->setPhone($BECliente->getCelular());
@@ -212,6 +230,9 @@ $request = (new EventRequest(PIXEL_ID))
 $response = $request->execute();
 
 // --------------------------------FacebookAds end-------------------------------------------------
+
+
+//echo "acanga (".$distMeta.") ";
 
 //print_r($productosArray);
 //print_r($listadoProdCarrito);

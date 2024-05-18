@@ -4,7 +4,7 @@
 
 namespace Composer\Autoload;
 
-class ComposerStaticInit1f610ea434c6a27778e4a3704ef132c1
+class ComposerStaticInit6bcd5481a846d46e3ee0021089b21408
 {
     public static $files = array (
         '7b11c4dc42b3b3023073cb14e519683c' => __DIR__ . '/..' . '/ralouphie/getallheaders/src/getallheaders.php',
@@ -167,6 +167,9 @@ class ComposerStaticInit1f610ea434c6a27778e4a3704ef132c1
         'Hamcrest\\Type\\IsString' => __DIR__ . '/..' . '/hamcrest/hamcrest-php/hamcrest/Hamcrest/Type/IsString.php',
         'Hamcrest\\Util' => __DIR__ . '/..' . '/hamcrest/hamcrest-php/hamcrest/Hamcrest/Util.php',
         'Hamcrest\\Xml\\HasXPath' => __DIR__ . '/..' . '/hamcrest/hamcrest-php/hamcrest/Hamcrest/Xml/HasXPath.php',
+        'MP' => __DIR__ . '/..' . '/mercadopago/sdk/lib/mercadopago.php',
+        'MPRestClient' => __DIR__ . '/..' . '/mercadopago/sdk/lib/mercadopago.php',
+        'MercadoPagoException' => __DIR__ . '/..' . '/mercadopago/sdk/lib/mercadopago.php',
         'PHPUnit\\Exception' => __DIR__ . '/..' . '/phpunit/phpunit/src/Exception.php',
         'PHPUnit\\Framework\\ActualValueIsNotAnObjectException' => __DIR__ . '/..' . '/phpunit/phpunit/src/Framework/Exception/ActualValueIsNotAnObjectException.php',
         'PHPUnit\\Framework\\Assert' => __DIR__ . '/..' . '/phpunit/phpunit/src/Framework/Assert.php',
@@ -801,10 +804,10 @@ class ComposerStaticInit1f610ea434c6a27778e4a3704ef132c1
     public static function getInitializer(ClassLoader $loader)
     {
         return \Closure::bind(function () use ($loader) {
-            $loader->prefixLengthsPsr4 = ComposerStaticInit1f610ea434c6a27778e4a3704ef132c1::$prefixLengthsPsr4;
-            $loader->prefixDirsPsr4 = ComposerStaticInit1f610ea434c6a27778e4a3704ef132c1::$prefixDirsPsr4;
-            $loader->prefixesPsr0 = ComposerStaticInit1f610ea434c6a27778e4a3704ef132c1::$prefixesPsr0;
-            $loader->classMap = ComposerStaticInit1f610ea434c6a27778e4a3704ef132c1::$classMap;
+            $loader->prefixLengthsPsr4 = ComposerStaticInit6bcd5481a846d46e3ee0021089b21408::$prefixLengthsPsr4;
+            $loader->prefixDirsPsr4 = ComposerStaticInit6bcd5481a846d46e3ee0021089b21408::$prefixDirsPsr4;
+            $loader->prefixesPsr0 = ComposerStaticInit6bcd5481a846d46e3ee0021089b21408::$prefixesPsr0;
+            $loader->classMap = ComposerStaticInit6bcd5481a846d46e3ee0021089b21408::$classMap;
 
         }, null, ClassLoader::class);
     }

@@ -750,7 +750,7 @@ $header->headerSet($title, $descripcion);
 					//alert('3');
 				},
 				success: function(response) {
-					alert(response);
+					//alert(response);
 					//mostrar_mensaje(response);
 					$("#DivTipoEntrega").html(response);
 				}
@@ -1086,6 +1086,8 @@ $header->headerSet($title, $descripcion);
 
 		$(document).ready(function() {
 
+			
+
 			borrarOpcionEntrega();
 
 			mostrarProducto();
@@ -1093,10 +1095,10 @@ $header->headerSet($title, $descripcion);
 			mostrarCliente();
 
 			mostrarCupon();
-
-			obtenerTipoEntrega();
 			
 			mostrarUbigeo();
+
+			obtenerTipoEntrega();
 
 			actualizarMontos();
 

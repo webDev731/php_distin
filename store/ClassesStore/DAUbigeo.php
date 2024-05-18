@@ -12,7 +12,7 @@ class DAUbigeo{
 		$sql ="SELECT Id_Dpto, Nom_Dpto, Est_Dpto, Id_ProvSelecDefaul , Id_DistSelecDefaul FROM departamento WHERE Est_Dpto ='V' Order By Nom_Dpto ASC";
 
 		//echo $sql;
-		$array = array (":code" => "");
+		$array = array ();
 		//$array = array (":email" => $email);
 		$result = $db->consulta2($sql,$array, $funciono);
 		return $result;	      
