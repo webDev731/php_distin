@@ -2,11 +2,11 @@
 
 
 // integrar mercado pago
-require_once 'vendor/autoload.php';
+require 'vendor/autoload.php';
 
 
 
-require_once 'ClassesStore/configuracionBD.php';
+require 'ClassesStore/configuracionBD.php';
 
 MercadoPago\SDK::setAccessToken(ACCESS_TOKEN_MP);
 
